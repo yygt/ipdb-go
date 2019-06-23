@@ -117,13 +117,13 @@ func newReader(name string, obj interface{}) (*reader, error) {
 	return db, nil
 }
 
-func (db *reader) Find(addr, language string) ([]string, error) {
-	return db.find1(addr, language)
+func (db *reader) Find(ip net.IP, language string) ([]string, error) {
+	return db.find1(ip, language)
 }
 
-func (db *reader) FindMap(addr, language string) (map[string]string, error) {
+func (db *reader) FindMap(ip net.IP, language string) (map[string]string, error) {
 
-	data, err := db.find1(addr, language)
+	data, err := db.find1(ip, language)
 	if err != nil {
 		return nil, err
 	}
@@ -135,11 +135,10 @@ func (db *reader) FindMap(addr, language string) (map[string]string, error) {
 	return info, nil
 }
 
-func (db *reader) find0(addr string) ([]byte, error) {
+func (db *reader) find0(ipv net.IP) ([]byte, error) {
 
 	var err error
 	var node int
-	ipv := net.ParseIP(addr)
 	if ip := ipv.To4(); ip != nil {
 		if !db.IsIPv4Support() {
 			return nil, ErrNoSupportIPv4
@@ -168,14 +167,14 @@ func (db *reader) find0(addr string) ([]byte, error) {
 	return body, nil
 }
 
-func (db *reader) find1(addr, language string) ([]string, error) {
+func (db *reader) find1(ip net.IP, language string) ([]string, error) {
 
 	off, ok := db.meta.Languages[language]
 	if !ok {
 		return nil, ErrNoSupportLanguage
 	}
 
-	body, err := db.find0(addr)
+	body, err := db.find0(ip)
 	if err != nil {
 		return nil, err
 	}

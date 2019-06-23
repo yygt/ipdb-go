@@ -3,6 +3,7 @@ package ipdb
 import (
 	"reflect"
 	"time"
+	"net"
 	"os"
 )
 
@@ -66,15 +67,15 @@ func (db *City) Reload(name string) error {
 	return nil
 }
 
-// Find query with addr
-func (db *City) Find(addr, language string) ([]string, error) {
-	return db.reader.find1(addr, language)
+// Find query with ip
+func (db *City) Find(ip net.IP, language string) ([]string, error) {
+	return db.reader.find1(ip, language)
 }
 
-// FindMap query with addr
-func (db *City) FindMap(addr, language string) (map[string]string, error) {
+// FindMap query with ip
+func (db *City) FindMap(ip net.IP, language string) (map[string]string, error) {
 
-	data, err := db.reader.find1(addr, language)
+	data, err := db.reader.find1(ip, language)
 	if err != nil {
 		return nil, err
 	}
@@ -86,10 +87,10 @@ func (db *City) FindMap(addr, language string) (map[string]string, error) {
 	return info, nil
 }
 
-// FindInfo query with addr
-func (db *City) FindInfo(addr, language string) (*CityInfo, error) {
+// FindInfo query with ip
+func (db *City) FindInfo(ip net.IP, language string) (*CityInfo, error) {
 
-	data, err := db.reader.FindMap(addr, language)
+	data, err := db.reader.FindMap(ip, language)
 	if err != nil {
 		return nil, err
 	}

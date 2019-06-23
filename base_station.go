@@ -3,6 +3,7 @@ package ipdb
 import (
 	"reflect"
 	"time"
+	"net"
 	"os"
 )
 
@@ -48,13 +49,13 @@ func (db *BaseStation) Reload(name string) error {
 	return nil
 }
 
-func (db *BaseStation) Find(addr, language string) ([]string, error) {
-	return db.reader.find1(addr, language)
+func (db *BaseStation) Find(ip net.IP, language string) ([]string, error) {
+	return db.reader.find1(ip, language)
 }
 
-func (db *BaseStation) FindMap(addr, language string) (map[string]string, error) {
+func (db *BaseStation) FindMap(ip net.IP, language string) (map[string]string, error) {
 
-	data, err := db.reader.find1(addr, language)
+	data, err := db.reader.find1(ip, language)
 	if err != nil {
 		return nil, err
 	}
@@ -66,9 +67,9 @@ func (db *BaseStation) FindMap(addr, language string) (map[string]string, error)
 	return info, nil
 }
 
-func (db *BaseStation) FindInfo(addr, language string) (*BaseStationInfo, error) {
+func (db *BaseStation) FindInfo(ip net.IP, language string) (*BaseStationInfo, error) {
 
-	data, err := db.reader.FindMap(addr, language)
+	data, err := db.reader.FindMap(ip, language)
 	if err != nil {
 		return nil, err
 	}
