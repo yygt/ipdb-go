@@ -7,7 +7,7 @@ IPIP.net officially supported IP database ipdb format parsing library
 
 # Installing
 <code>
-    go get github.com/ipipdotnet/ipdb-go
+    go get github.com/yygt/ipdb-go
 </code>
 
 # Code Example
@@ -18,7 +18,8 @@ IPIP.net officially supported IP database ipdb format parsing library
 package main
 
 import (
-	"github.com/ipipdotnet/ipdb-go"
+	"github.com/yygt/ipdb-go"
+	"net"
 	"fmt"
 	"log"
 )
@@ -37,10 +38,10 @@ func main() {
 	fmt.Println(db.Languages()) // database support language
 	fmt.Println(db.Fields()) // database support fields
 
-	fmt.Println(db.FindInfo("2001:250:200::", "CN")) // return CityInfo
-	fmt.Println(db.Find("1.1.1.1", "CN")) // return []string
-	fmt.Println(db.FindMap("118.28.8.8", "CN")) // return map[string]string
-	fmt.Println(db.FindInfo("127.0.0.1", "CN")) // return CityInfo
+	fmt.Println(db.FindInfo(net.ParseIP("2001:250:200::"), "CN")) // return CityInfo
+	fmt.Println(db.Find(net.ParseIP("1.1.1.1"), "CN")) // return []string
+	fmt.Println(db.FindMap(net.ParseIP("118.28.8.8"), "CN")) // return map[string]string
+	fmt.Println(db.FindInfo(net.ParseIP("127.0.0.1"), "CN")) // return CityInfo
 
 	fmt.Println()
 }
@@ -80,9 +81,9 @@ fmt.Println(db.IsIPv6())    // check database support ip type
 fmt.Println(db.Languages()) // database support language
 fmt.Println(db.Fields())    // database support fields
 
-fmt.Println(db.Find("1.12.7.255", "CN"))
-fmt.Println(db.FindMap("2001:250:200::", "CN"))
-fmt.Println(db.FindInfo("1.12.7.255", "CN"))
+fmt.Println(db.Find(net.ParseIP("1.12.7.255"), "CN"))
+fmt.Println(db.FindMap(net.ParseIP("2001:250:200::"), "CN"))
+fmt.Println(db.FindInfo(net.ParseIP("1.12.7.255"), "CN"))
 
 fmt.Println()
 </pre>
@@ -94,5 +95,5 @@ if err != nil {
 	log.Fatal(err)
 }
 
-fmt.Println(db.FindMap("223.220.223.255", "CN"))
+fmt.Println(db.FindMap(net.ParseIP("223.220.223.255"), "CN"))
 </pre>
