@@ -1,6 +1,7 @@
 package ipdb
 
 import (
+	"net"
 	"testing"
 )
 
@@ -20,28 +21,28 @@ func TestNewCity(t *testing.T) {
 
 	t.Log(db.Fields())
 
-	loc, err := db.Find("1.1.1.1", "CN")
+	loc, err := db.Find(net.ParseIP("1.1.1.1"), "CN")
 	if err != nil {
 		t.Log(err)
 	} else {
 		t.Log(loc)
 	}
 
-	m, err := db.FindMap("27.190.250.164", "CN")
+	m, err := db.FindMap(net.ParseIP("27.190.250.164"), "CN")
 	if err == nil {
 		for k, v := range m {
 			t.Log(k, v)
 		}
 	}
 
-	info1, err := db.FindInfo("1.1.1.1", "CN")
+	info1, err := db.FindInfo(net.ParseIP("1.1.1.1"), "CN")
 	if err == nil {
 		for _, item := range info1.ASNInfo {
 			t.Log(item.ASN, item.Registry, item.Country, item.Net, item.Org)
 		}
 	}
 
-	info, err := db.FindInfo("27.190.250.164", "CN")
+	info, err := db.FindInfo(net.ParseIP("27.190.250.164"), "CN")
 	if err != nil {
 		t.Log(err)
 	} else {
@@ -59,18 +60,18 @@ func TestNewCity(t *testing.T) {
 func BenchmarkCity_Find(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
-		db.Find("118.28.1.1", "CN")
+		db.Find(net.ParseIP("118.28.1.1"), "CN")
 	}
 }
 
 func BenchmarkCity_FindMap(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		db.FindMap("118.28.1.1", "CN")
+		db.FindMap(net.ParseIP("118.28.1.1"), "CN")
 	}
 }
 
 func BenchmarkCity_FindInfo(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		db.FindInfo("118.28.1.1", "CN")
+		db.FindInfo(net.ParseIP("118.28.1.1"), "CN")
 	}
 }

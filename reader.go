@@ -17,13 +17,13 @@ const IPv4 = 0x01
 const IPv6 = 0x02
 
 var (
-	ErrFileSize = errors.New("IP Database file size error.")
-	ErrMetaData = errors.New("IP Database metadata error.")
-	ErrReadFull = errors.New("IP Database ReadFull error.")
+	ErrFileSize = errors.New("IP Database file size error")
+	ErrMetaData = errors.New("IP Database metadata error")
+	ErrReadFull = errors.New("IP Database ReadFull error")
 
 	ErrDatabaseError = errors.New("database error")
 
-	ErrIPFormat = errors.New("Query IP Format error.")
+	ErrIPFormat = errors.New("IP Format error")
 
 	ErrNoSupportLanguage = errors.New("language not support")
 	ErrNoSupportIPv4     = errors.New("IPv4 not support")
